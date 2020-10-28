@@ -24,3 +24,18 @@ test$id <- scan("UCI HAR Dataset/test/subject_test.txt", what = "factor",
 
 ##Merge the training and test data
 mergedData <- rbind(train, test)
+
+##Extracts only the mean and standard deviation for each measurement
+exData <- mergedData[, grepl("mean", names(mergedData)) | 
+                         grepl("std", names(mergedData)) | 
+                         grepl("id", names(mergedData)) | 
+                         grepl("labels", names(mergedData))]
+
+##Renames the activities with descriptive names
+library(plyr)
+exData$labels <- as.factor(exData$labels)
+exData$labels <- mapvalues(exData$labels, from = levels(exData$labels), 
+                           to = c("walk", "walkup", "walkdown",
+                                  "sit", "stand", "lay"))
+
+##Renames variables
