@@ -5,7 +5,7 @@ rawDataURL <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUC
 download.file(rawDataURL, destfile = "rawData.zip")
 unzip("rawData.zip")
 
-##Load the raw data into data frames and add subject ID's and variable labels
+##Load the raw data into data frames and add subject ID's and variable names
 train <- read.table("UCI HAR Dataset/train/X_train.txt")
 features <- scan("UCI HAR Dataset/features.txt", what = "character", sep = "\n")
 features <- sub("[0-9]+ ", "", features)
@@ -39,3 +39,9 @@ exData$labels <- mapvalues(exData$labels, from = levels(exData$labels),
                                   "sit", "stand", "lay"))
 
 ##Renames variables
+names(exData) <- gsub("[^a-z | A-Z]+", "", names(exData))
+
+##Creates a second data set of the average for each variable for each
+##subject and each activity
+
+
