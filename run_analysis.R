@@ -37,11 +37,17 @@ exData$labels <- as.factor(exData$labels)
 exData$labels <- mapvalues(exData$labels, from = levels(exData$labels), 
                            to = c("walk", "walkup", "walkdown",
                                   "sit", "stand", "lay"))
+exData$id <- as.factor(exData$id)
 
 ##Renames variables
 names(exData) <- gsub("[^a-z | A-Z]+", "", names(exData))
 
 ##Creates a second data set of the average for each variable for each
 ##subject and each activity
-
-
+aveData <- data.frame()
+splitData <- c(split(exData[, 1:79], exData$labels), 
+               split(exData[, 1:79], exData$id))
+for(i in 1:36) {
+    aveData <- rbind(aveData, t(data.frame(apply(splitData[[i]], 2, mean))))
+}
+row.names(aveData) <- names(splitData)
