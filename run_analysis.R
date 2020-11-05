@@ -51,3 +51,7 @@ for(i in 1:36) {
     aveData <- rbind(aveData, t(data.frame(apply(splitData[[i]], 2, mean))))
 }
 row.names(aveData) <- names(splitData)
+
+##Make a file to export data frame
+write.table(aveData, file = "cleandata.txt", row.names = FALSE)
+
